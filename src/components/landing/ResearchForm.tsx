@@ -17,16 +17,17 @@ const researchFormSchema = z.object({
   researchTopic: z.string().trim().min(1, { message: "Research topic is required" }).max(500, { message: "Research topic must be less than 500 characters" }),
 });
 
-// Internal submission URL - not exposed to users
-const SUBMISSION_URL = 'https://jsonplaceholder.typicode.com/posts';
-
 type ResearchFormData = z.infer<typeof researchFormSchema>;
 
 interface ResearchFormProps {
   show?: boolean;
+  submissionUrl?: string;
 }
 
-export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
+export const ResearchForm: React.FC<ResearchFormProps> = ({ 
+  show = true, 
+  submissionUrl = 'https://jsonplaceholder.typicode.com/posts' 
+}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
@@ -54,10 +55,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
         timestamp: new Date().toISOString(),
       };
 
-      console.log('Submitting research form to:', SUBMISSION_URL);
+      console.log('Submitting research form to:', submissionUrl);
       console.log('Payload:', payload);
 
-      const response = await fetch(SUBMISSION_URL, {
+      const response = await fetch(submissionUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
