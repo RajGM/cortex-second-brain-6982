@@ -49,7 +49,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
       // Prepare the payload
       const payload = {
         name: data.name,
-        phone: data.phone,
+        contact: data.phone,
         email: data.email,
         researchTopic: data.researchTopic,
         timestamp: new Date().toISOString(),
