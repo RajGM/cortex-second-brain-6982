@@ -9,6 +9,7 @@ import { TestimonialsSection } from '@/components/landing/TestimonialsSection';
 import { CallToAction } from '@/components/landing/CallToAction';
 import { LoadingScreen } from '@/components/landing/LoadingScreen';
 import UseCasesSection from '@/components/landing/UseCasesSection';
+import { ResearchForm } from '@/components/landing/ResearchForm';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -17,6 +18,7 @@ const Index = () => {
   const showDesign = useAnimateIn(false, 900);
   const showDeploy = useAnimateIn(false, 1200);
   const showUseCases = useAnimateIn(false, 1500);
+  const showResearchForm = useAnimateIn(false, 500);
   const showTestimonials = useAnimateIn(false, 1800);
   const showCallToAction = useAnimateIn(false, 2100);
   
@@ -44,6 +46,9 @@ const Index = () => {
         <div className="flex flex-col">
           {/* Hero Section */}
           <HeroSection showTitle={showHero} />
+          
+          {/* Research Form */}
+          <ResearchForm show={showResearchForm} />
           
           {/* Manage Section */}
           <ManageSection show={showManage} />
