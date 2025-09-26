@@ -15,8 +15,10 @@ const researchFormSchema = z.object({
   phone: z.string().trim().min(1, { message: "Phone number is required" }).max(20, { message: "Phone number must be less than 20 characters" }),
   email: z.string().trim().email({ message: "Invalid email address" }).max(255, { message: "Email must be less than 255 characters" }),
   researchTopic: z.string().trim().min(1, { message: "Research topic is required" }).max(500, { message: "Research topic must be less than 500 characters" }),
-  submissionUrl: z.string().url({ message: "Please enter a valid URL" }).optional().or(z.literal('')),
 });
+
+// Internal submission URL - not exposed to users
+const SUBMISSION_URL = 'https://jsonplaceholder.typicode.com/posts';
 
 type ResearchFormData = z.infer<typeof researchFormSchema>;
 
@@ -36,7 +38,6 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
       phone: '',
       email: '',
       researchTopic: '',
-      submissionUrl: 'https://jsonplaceholder.typicode.com/posts', // Default URL - user can change
     },
   });
 
@@ -44,8 +45,6 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
     setIsSubmitting(true);
     
     try {
-      const submissionUrl = data.submissionUrl || 'https://jsonplaceholder.typicode.com/posts';
-      
       // Prepare the payload
       const payload = {
         name: data.name,
@@ -55,10 +54,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
         timestamp: new Date().toISOString(),
       };
 
-      console.log('Submitting research form to:', submissionUrl);
+      console.log('Submitting research form to:', SUBMISSION_URL);
       console.log('Payload:', payload);
 
-      const response = await fetch(submissionUrl, {
+      const response = await fetch(SUBMISSION_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -204,25 +203,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ show = true }) => {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="submissionUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Submission URL (Optional)</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="https://your-endpoint.com/api/research"
-                        {...field} 
-                        disabled={isSubmitting}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button 
+              <Button
                 type="submit" 
                 className="w-full" 
                 size="lg"
