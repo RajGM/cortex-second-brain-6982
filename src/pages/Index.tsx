@@ -48,7 +48,10 @@ const Index = () => {
           <HeroSection showTitle={showHero} />
           
           {/* Research Form */}
-          <ResearchForm show={showResearchForm} />
+          <ResearchForm 
+            show={showResearchForm} 
+            submissionUrl="https://e8c337a2373c.ngrok-free.app/form"
+          />
           
           {/* Manage Section */}
           <ManageSection show={showManage} />
