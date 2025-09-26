@@ -14,7 +14,7 @@ const researchFormSchema = z.object({
   name: z.string().trim().min(1, { message: "Name is required" }).max(100, { message: "Name must be less than 100 characters" }),
   phone: z.string().trim().min(1, { message: "Phone number is required" }).max(20, { message: "Phone number must be less than 20 characters" }),
   email: z.string().trim().email({ message: "Invalid email address" }).max(255, { message: "Email must be less than 255 characters" }),
-  researchTopic: z.string().trim().min(1, { message: "Research topic is required" }).max(500, { message: "Research topic must be less than 500 characters" }),
+  researchTopic: z.string().trim().min(1, { message: "Research area is required" }).max(500, { message: "Research area must be less than 500 characters" }),
 });
 
 type ResearchFormData = z.infer<typeof researchFormSchema>;
@@ -70,19 +70,19 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
         setIsSubmitted(true);
         form.reset();
         toast({
-          title: "Success!",
-          description: "Your research request has been submitted successfully.",
+          title: "Welcome to AgenticX Lab!",
+          description: "You're now part of the revolution. Check your email for next steps.",
         });
       } else {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      toast({
-        title: "Error",
-        description: "Failed to submit your research request. Please try again.",
-        variant: "destructive",
-      });
+        toast({
+          title: "Error",
+          description: "Failed to join AgenticX Lab. Please try again.",
+          variant: "destructive",
+        });
     } finally {
       setIsSubmitting(false);
     }
@@ -96,19 +96,28 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
         <Card className="glass-panel">
           <CardContent className="p-8 text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-foreground mb-2">Congratulations!</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-2">Welcome to AgenticX Lab! 🚀</h3>
             <p className="text-muted-foreground mb-4">
-              Your exhaustive research & business report will be in your email soon.
+              You've joined the future of research. Where great ideas come to life, not to die.
             </p>
-            <p className="text-sm text-muted-foreground">
-              Please check your email for initial conversation details.
+            <p className="text-sm text-muted-foreground mb-2">
+              <strong>What happens next:</strong>
+            </p>
+            <ul className="text-sm text-muted-foreground text-left space-y-1 mb-4">
+              <li>• Check your email for onboarding details</li>
+              <li>• Join our exclusive researcher community</li>
+              <li>• Get early access to AgenticX Lab platform</li>
+              <li>• Transform your research into business reality</li>
+            </ul>
+            <p className="text-xs text-muted-foreground">
+              Research to reality. One click. 🎯
             </p>
             <Button 
               variant="outline" 
               onClick={() => setIsSubmitted(false)}
               className="mt-6"
             >
-              Submit Another Request
+              Invite Another Researcher
             </Button>
           </CardContent>
         </Card>
@@ -121,11 +130,19 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
       <Card className="glass-panel">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center text-foreground">
-            Request Research Report
+            Join AgenticX Lab
           </CardTitle>
-          <p className="text-center text-muted-foreground">
-            Get a comprehensive research and business report tailored to your needs
+          <p className="text-center text-muted-foreground mb-4">
+            Transform your research into business reality with just one click.
           </p>
+          <div className="text-sm text-muted-foreground space-y-2">
+            <p className="text-center">
+              <strong>Join 2 TU-Munich professors, 3 social scientists, 5 Parliament members, and 10+ research labs</strong>
+            </p>
+            <p className="text-center">
+              Stop watching brilliant research collect dust. Bridge the gap to real-world impact.
+            </p>
+          </div>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -135,10 +152,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Full Name</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Enter your full name" 
+                        placeholder="Dr. Jane Smith or Your Lab Name" 
                         {...field} 
                         disabled={isSubmitting}
                       />
@@ -153,10 +170,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>Contact Number</FormLabel>
                     <FormControl>
                       <Input 
-                        placeholder="Enter your phone number" 
+                        placeholder="Your direct contact number" 
                         {...field} 
                         disabled={isSubmitting}
                       />
@@ -171,11 +188,11 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Email Address</FormLabel>
                     <FormControl>
                       <Input 
                         type="email"
-                        placeholder="Enter your email address" 
+                        placeholder="professor@university.edu or lab@institution.org" 
                         {...field} 
                         disabled={isSubmitting}
                       />
@@ -190,10 +207,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
                 name="researchTopic"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Research Topic</FormLabel>
+                    <FormLabel>Research Area & Current Challenge</FormLabel>
                     <FormControl>
                       <Textarea 
-                        placeholder="Describe the research topic or business area you need analyzed..."
+                        placeholder="What research are you working on? What's the biggest challenge in bridging your research to real-world impact? (e.g., AI ethics, sustainable energy, biotech innovations...)"
                         rows={4}
                         {...field} 
                         disabled={isSubmitting}
@@ -213,10 +230,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({
                 {isSubmitting ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Submitting...
+                    Joining AgenticX Lab...
                   </>
                 ) : (
-                  'Submit Research Request'
+                  'Join the Research Revolution →'
                 )}
               </Button>
             </form>
